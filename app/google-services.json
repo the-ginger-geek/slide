@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "587446689258",
+    "firebase_url": "https://slide-messenger-app.firebaseio.com",
+    "project_id": "slide-messenger-app",
+    "storage_bucket": "slide-messenger-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587446689258:android:ededaaca34cb0799a12693",
+        "android_client_info": {
+          "package_name": "app.messenger.slide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587446689258-5rkai2lmt25crpqkg7i2b22iss1936um.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.messenger.slide",
+            "certificate_hash": "63e2f7bb63743ad67fa40893b7e590d35fa3fbcd"
+          }
+        },
+        {
+          "client_id": "587446689258-06i228vto664jo1e54f7qme918mj9oau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh22wf68PCwWoBIczEh-ulGUMNy3cuW-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587446689258-06i228vto664jo1e54f7qme918mj9oau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
