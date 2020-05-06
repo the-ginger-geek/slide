@@ -1,7 +1,7 @@
 package app.messenger.slide.ui.main
 
-import androidx.lifecycle.ViewModel
+import app.messenger.slide.ui.core.BaseViewModel
 
-class MainViewModel : ViewModel() {
+class MainViewModel : BaseViewModel() {
 
 }

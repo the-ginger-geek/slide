@@ -1,7 +1,7 @@
 package app.messenger.slide.ui.sign_in
 
-import androidx.lifecycle.ViewModel
+import app.messenger.slide.ui.core.BaseViewModel
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel : BaseViewModel() {
 
 }
