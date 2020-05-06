@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="app.messenger.slide.ui.main.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_conversationFragment"
+            app:destination="@id/conversationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/conversationFragment"
+        android:name="app.messenger.slide.ui.conversation.ConversationFragment"
+        android:label="ConversationFragment" />
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="app.messenger.slide.ui.user.UsersFragment"
+        android:label="UsersFragment" >
+        <action
+            android:id="@+id/action_usersFragment_to_conversationFragment"
+            app:destination="@id/conversationFragment" />
+    </fragment>
+</navigation>

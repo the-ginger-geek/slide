@@ -7,7 +7,10 @@ data class Message(
     val toUserEmail: String,
     val message: String,
     val timestamp: Long
-) {
+) : Entity {
+    override val type: Int
+        get() = Entity.messageType
+
     companion object {
         fun parseFirestoreObj(snapshot: QueryDocumentSnapshot): Message {
             return Message(

@@ -1,10 +1,26 @@
 package app.messenger.slide.ui.core
 
+import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.ViewModel
-import app.messenger.slide.infrastructure.FirestoreRepository
+import androidx.navigation.Navigation
+import app.messenger.slide.R
+import app.messenger.slide.application.MainApplication
+import app.messenger.slide.infrastructure.Repository
 import javax.inject.Inject
 
 abstract class BaseViewModel : ViewModel() {
-    lateinit var repository: FirestoreRepository
+    var repository: Repository? = null
         @Inject set
+
+    open fun init(context: Context) {}
+
+    protected fun initializeBaseViewModel(context: Context) {
+        (context.applicationContext as MainApplication).applicationComponent?.inject(this)
+    }
+
+    fun navigate(context: Context, id: Int) {
+        Navigation.findNavController(context as Activity, R.id.nav_host_fragment)
+            .navigate(id)
+    }
 }

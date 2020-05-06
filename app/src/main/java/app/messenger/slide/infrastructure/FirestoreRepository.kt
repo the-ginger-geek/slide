@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -16,15 +17,29 @@ import com.google.firebase.ktx.Firebase
 
 class FirestoreRepository : Repository {
     private val tag = FirestoreRepository::class.java.simpleName
-    private val firestore: FirebaseFirestore = Firebase.firestore;
-    private val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser;
+    private val firestore: FirebaseFirestore = Firebase.firestore
+    private val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+
+    init {
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true)
+            .build()
+        firestore.firestoreSettings = settings
+    }
+
+    override fun addNewUser(firebaseUser: FirebaseUser) {
+        val user = User(firebaseUser.email?: "", firebaseUser.displayName?: "")
+        firestore.collection("users").document(user.email).set(user)
+    }
 
     override fun getAllUsers(callback: (QueryResult<List<User>, Exception>) -> Unit) {
         firestore.collection("users").get()
             .addOnSuccessListener { result ->
                 callback.invoke(QueryResult.success(mutableListOf<User>().apply {
                     result?.forEach { snapshot ->
-                        snapshot?.let { add(User.parseFirestoreObj(it)) }
+                        snapshot?.let {
+                            add(User.parseFirestoreObj(it))
+                        }
                     }
                 }))
             }
@@ -63,7 +78,7 @@ class FirestoreRepository : Repository {
     }
 
     override fun getMessagesForUser(
-        user: User,
+        userEmail: String,
         callback: (QueryResult<List<Message>, Exception>) -> Unit
     ) {
         val docRef = firestore.collection("messages")
@@ -72,13 +87,13 @@ class FirestoreRepository : Repository {
             callback.invoke(QueryResult.failure(e))
         }
 
-        docRef.whereEqualTo("fromUser", user.email)
+        docRef.whereEqualTo("fromUser", userEmail)
             .whereEqualTo("toUser", currentUser?.email).get()
             .addOnSuccessListener { result ->
                 messages.addAll(getMessagesFromResult(result))
             }.addOnFailureListener(onFailureListener)
         docRef.whereEqualTo("fromUser", currentUser?.email)
-            .whereEqualTo("toUser", user.email).get()
+            .whereEqualTo("toUser", userEmail).get()
             .addOnSuccessListener { result ->
                 messages.addAll(getMessagesFromResult(result))
             }.addOnFailureListener(onFailureListener)
@@ -95,7 +110,6 @@ class FirestoreRepository : Repository {
     }
 
     override fun getRunningConversations(
-        toUser: User,
         callback: (QueryResult<Set<Conversation>, Exception>) -> Unit
     ) {
         val conversations = mutableSetOf<Conversation>()

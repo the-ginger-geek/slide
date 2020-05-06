@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#25508f</color>
     <color name="colorAccent">#1af1d6</color>
     <color name="white">#FFFFFF</color>
+    <color name="night_mode_black">#0F0F0F</color>
+    <color name="transparent">#00000000</color>
 </resources>

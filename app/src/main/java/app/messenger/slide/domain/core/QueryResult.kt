@@ -1,10 +1,11 @@
 package app.messenger.slide.domain.core
 
 class QueryResult<R, E>() {
-    private var result: R? = null
-    private var exception: E? = null
+    var value: R? = null
+    var exception: E? = null
 
     private constructor(r: R?, e: E?): this() {
+        value = r
         exception = e
     }
 

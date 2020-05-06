@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/coda</item>
+        <item>@font/coda_extrabold</item>
+        <item>@font/dosis_extralight</item>
         <item>@font/pacifico</item>
     </array>
 </resources>

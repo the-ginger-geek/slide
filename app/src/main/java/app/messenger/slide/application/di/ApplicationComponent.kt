@@ -1,5 +1,6 @@
 package app.messenger.slide.application.di
 
+import app.messenger.slide.ui.SplashActivity
 import app.messenger.slide.ui.core.BaseViewModel
 import dagger.Component
 import javax.inject.Singleton
@@ -8,4 +9,5 @@ import javax.inject.Singleton
 @Component(modules = [ApplicationModule::class, RepositoryModule::class])
 interface ApplicationComponent {
     fun inject(component: BaseViewModel?)
+    fun inject(component: SplashActivity?)
 }

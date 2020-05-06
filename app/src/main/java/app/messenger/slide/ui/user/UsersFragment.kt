@@ -1,4 +1,4 @@
-package app.messenger.slide.ui.main
+package app.messenger.slide.ui.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import app.messenger.slide.R
-import app.messenger.slide.databinding.MainFragmentBinding
+import app.messenger.slide.databinding.UsersFragmentBinding
 import app.messenger.slide.ui.core.BaseFragment
-import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.users_fragment.*
 
-class MainFragment : BaseFragment() {
+class UsersFragment : BaseFragment() {
 
-    private val viewModel: MainViewModel by viewModels()
-    private lateinit var binding: MainFragmentBinding
+    private val viewModel: UsersViewModel by viewModels()
+    private lateinit var binding: UsersFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.users_fragment, container, false)
         return binding.root
     }
 
@@ -27,10 +27,9 @@ class MainFragment : BaseFragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        activityCallback?.setTitle(getString(R.string.app_name))
+        activityCallback?.setTitle(getString(R.string.user_screen_title))
 
-        setupAdapter(recycler, viewModel.conversations)
         context?.let { viewModel.init(it) }
+        setupAdapter(recycler, viewModel.users)
     }
-
 }
