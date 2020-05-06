@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="app.messenger.slide.ui.conversation.ConversationViewModel" />
@@ -50,11 +49,16 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine"
                     android:hint="@string/conversation_screen_input_hint"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textColorHint="?android:attr/textColorPrimaryDisableOnly"
+                    android:background="@color/transparent"
+                    android:text="@={viewModel.input}"
+                    android:maxLines="6"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/imageView3"
                     app:layout_constraintStart_toStartOf="parent"
@@ -63,9 +67,13 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginEnd="8dp"
+                    android:padding="10dp"
+                    android:onClick="@{viewModel::onClick}"
+                    android:background="@drawable/clickable_item_background"
+                    android:enabled="@{viewModel.enabled}"
                     app:layout_constraintBottom_toBottomOf="@+id/editText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/editText"

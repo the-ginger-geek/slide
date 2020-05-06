@@ -29,8 +29,8 @@ class MainFragment : BaseFragment() {
         binding.viewModel = viewModel
         activityCallback?.setTitle(getString(R.string.app_name))
 
-        setupAdapter(recycler, viewModel.conversations)
         context?.let { viewModel.init(it) }
+        setupAdapter(recycler, viewModel.conversations)
     }
 
 }

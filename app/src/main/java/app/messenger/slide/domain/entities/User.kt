@@ -1,5 +1,6 @@
 package app.messenger.slide.domain.entities
 
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
 data class User(
@@ -8,7 +9,7 @@ data class User(
     val timestamp: Long = System.currentTimeMillis()
 ) : Entity {
     override val type: Int
-        get() = Entity.userType
+        @Exclude get() = Entity.userType
 
     companion object {
         fun parseFirestoreObj(snapshot: QueryDocumentSnapshot): User {

@@ -11,8 +11,10 @@ import app.messenger.slide.R
 import app.messenger.slide.BR
 import app.messenger.slide.domain.entities.Conversation
 import app.messenger.slide.domain.entities.Entity
+import app.messenger.slide.domain.entities.Message
 import app.messenger.slide.domain.entities.User
 import app.messenger.slide.ui.view_models.ConversationViewModel
+import app.messenger.slide.ui.view_models.MessageViewModel
 import app.messenger.slide.ui.view_models.UserViewModel
 
 class BaseRecyclerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -24,6 +26,11 @@ class BaseRecyclerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.
             Entity.conversationType -> {
                 val binding = viewDataBinding(R.layout.view_conversation_item, parent)
                 ConversationViewHolder(binding.root, binding)
+            }
+
+            Entity.messageType -> {
+                val binding = viewDataBinding(R.layout.view_left_message_item, parent)
+                MessageViewHolder(binding.root, binding)
             }
 
             Entity.userType -> {
@@ -73,6 +80,13 @@ class UsersViewHolder(view: View, private val binding: ViewDataBinding) :
     BaseViewHolder<User>(view) {
     override fun bind(dataEntity: User) {
         binding.setVariable(BR.user, UserViewModel.parse(dataEntity))
+    }
+}
+
+class MessageViewHolder(view: View, private val binding: ViewDataBinding) :
+    BaseViewHolder<Message>(view) {
+    override fun bind(dataEntity: Message) {
+        binding.setVariable(BR.message, MessageViewModel.parse(dataEntity))
     }
 }
 

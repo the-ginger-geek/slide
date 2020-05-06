@@ -18,9 +18,12 @@ class ConversationFragment : BaseFragment() {
     private val viewModel: ConversationViewModel by viewModels()
     private lateinit var binding: ConversationFragmentBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.conversation_fragment, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.conversation_fragment, container, false)
         return binding.root
     }
 
@@ -33,10 +36,12 @@ class ConversationFragment : BaseFragment() {
 
         context?.let { context ->
             arguments?.let { bundle ->
-                val userEmail = bundle.getString("user_email") ?: ""
-                viewModel.init(context, userEmail)
-                val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
-                setupAdapter(recycler, viewModel.messages, layoutManager)
+                viewModel.init(context, bundle.getString("user_email") ?: "")
+                setupAdapter(
+                    recycler,
+                    viewModel.messages,
+                    LinearLayoutManager(context, RecyclerView.VERTICAL, true)
+                )
             }
         }
     }

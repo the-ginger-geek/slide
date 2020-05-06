@@ -28,7 +28,7 @@ class FirestoreRepository : Repository {
     }
 
     override fun addNewUser(firebaseUser: FirebaseUser) {
-        val user = User(firebaseUser.email?: "", firebaseUser.displayName?: "")
+        val user = User(firebaseUser.email ?: "", firebaseUser.displayName ?: "")
         firestore.collection("users").document(user.email).set(user)
     }
 
@@ -62,12 +62,12 @@ class FirestoreRepository : Repository {
     }
 
     override fun addNewMessage(
-        message: Message,
-        toUser: User,
+        message: String,
+        toUserEmail: String,
         callback: (QueryResult<Boolean, Exception>) -> Unit
     ) {
         firestore.collection("messages")
-            .add(message)
+            .add(Message(currentUser?.email ?: "", toUserEmail, message))
             .addOnSuccessListener { documentReference ->
                 callback.invoke(QueryResult.success(true))
                 Log.d(tag, "DocumentSnapshot added with ID: ${documentReference.id}")
@@ -82,31 +82,21 @@ class FirestoreRepository : Repository {
         callback: (QueryResult<List<Message>, Exception>) -> Unit
     ) {
         val docRef = firestore.collection("messages")
-        val messages = mutableListOf<Message>()
         val onFailureListener = OnFailureListener { e ->
             callback.invoke(QueryResult.failure(e))
         }
 
-        docRef.whereEqualTo("fromUser", userEmail)
-            .whereEqualTo("toUser", currentUser?.email).get()
+        docRef.whereEqualTo("fromUserEmail", userEmail)
+            .whereEqualTo("toUserEmail", currentUser?.email)
+            .orderBy("timestamp", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { result ->
-                messages.addAll(getMessagesFromResult(result))
-            }.addOnFailureListener(onFailureListener)
-        docRef.whereEqualTo("fromUser", currentUser?.email)
-            .whereEqualTo("toUser", userEmail).get()
-            .addOnSuccessListener { result ->
-                messages.addAll(getMessagesFromResult(result))
+                callback.invoke(QueryResult.success(mutableListOf<Message>().apply {
+                    result?.forEach { documentSnapshot ->
+                        documentSnapshot?.let { add(Message.parseFirestoreObj(it)) }
+                    }
+                }))
             }.addOnFailureListener(onFailureListener)
 
-        callback.invoke(QueryResult.success(messages))
-    }
-
-    private fun getMessagesFromResult(snapshot: QuerySnapshot?): List<Message> {
-        return mutableListOf<Message>().apply {
-            snapshot?.forEach { documentSnapshot ->
-                documentSnapshot?.let { add(Message.parseFirestoreObj(it)) }
-            }
-        }
     }
 
     override fun getRunningConversations(
@@ -114,13 +104,24 @@ class FirestoreRepository : Repository {
     ) {
         val conversations = mutableSetOf<Conversation>()
         firestore.collection("messages")
-            .whereEqualTo("fromUser", currentUser?.email)
-            .whereEqualTo("toUser", currentUser?.email)
+            .whereEqualTo("fromUserEmail", currentUser?.email)
+            .whereEqualTo("toUserEmail", currentUser?.email)
             .orderBy("timestamp", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { result ->
                 result?.forEach { snapshot ->
-                    snapshot?.let { conversations.add(Conversation.parseFirestoreObject(currentUser?.email, it)) }
+                    snapshot?.let {
+                        conversations.add(
+                            Conversation.parseFirestoreObject(
+                                currentUser?.email,
+                                it
+                            )
+                        )
+                    }
                 }
+                callback.invoke(QueryResult.success(conversations))
+            }
+            .addOnFailureListener { e ->
+                callback.invoke(QueryResult.failure(e))
             }
     }
 }

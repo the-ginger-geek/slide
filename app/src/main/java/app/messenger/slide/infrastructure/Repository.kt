@@ -10,7 +10,7 @@ interface Repository {
     fun addNewUser(firebaseUser: FirebaseUser)
     fun getAllUsers(callback: (QueryResult<List<User>, Exception>) -> Unit)
     fun registerNewUser(user: User, callback: (QueryResult<Boolean, Exception>) -> Unit)
-    fun addNewMessage(message: Message, toUser: User, callback: (QueryResult<Boolean, Exception>) -> Unit)
+    fun addNewMessage(message: String, toUserEmail: String, callback: (QueryResult<Boolean, Exception>) -> Unit)
     fun getMessagesForUser(userEmail: String, callback: (QueryResult<List<Message>, Exception>) -> Unit)
     fun getRunningConversations(callback: (QueryResult<Set<Conversation>, Exception>) -> Unit)
 
