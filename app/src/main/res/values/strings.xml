@@ -15,4 +15,6 @@
     <string name="messaging_screen_input_hint">Your message goes here</string>
     <string name="messaging_screen_empty_icon">No Messages yet</string>
     <string name="messaging_screen_no_data_text">No messages yet</string>
+    <string name="messaging_screen_camera_description">Camera</string>
+    <string name="messaging_screen_document_description">Documents</string>
 </resources>

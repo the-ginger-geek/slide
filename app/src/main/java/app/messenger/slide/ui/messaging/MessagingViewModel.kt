@@ -59,7 +59,6 @@ class MessagingViewModel : BaseViewModel() {
             if (!result.isSuccessful())  {
                 Snackbar.make(view, "Failed to send please try again", Snackbar.LENGTH_LONG).show()
             }
-            enabled.value = true
         }
         input.value = ""
     }

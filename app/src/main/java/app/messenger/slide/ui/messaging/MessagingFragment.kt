@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,6 +48,7 @@ class MessagingFragment : BaseFragment() {
                 )?.setDataChangedCallback {
                     if (it.isNotEmpty()) {
                         recycler.scrollToPosition(0)
+                        no_data_layout.visibility = View.GONE
                     } else {
                         no_data_layout.visibility = View.VISIBLE
                     }
