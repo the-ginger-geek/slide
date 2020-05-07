@@ -49,25 +49,19 @@ class FirestoreRepository : Repository, CoroutineScope {
      * @param callback
      */
     override fun getAllUsers(callback: (QueryResult<List<User>, Throwable?>) -> Unit) {
-        launch {
-            callback(withContext(Dispatchers.IO) {
-                val deferred = firestore.collection("users").get().asDeferred()
-                val result = deferred.await()
-                if (deferred.getCompletionExceptionOrNull() != null) {
-                    QueryResult.failure<List<User>, Throwable?>(deferred.getCompletionExceptionOrNull())
-                } else {
-                    QueryResult.success<List<User>, Throwable?>(mutableListOf<User>().apply {
-                        result?.forEach { snapshot ->
-                            snapshot?.let { query ->
-                                val user = User.parseFirestoreObj(query)
-                                if (user.email != currentUser?.email) {
-                                    add(user)
-                                }
-                            }
+        firestore.collection("users").addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                callback.invoke(QueryResult.failure<List<User>, Throwable?>(e))
+            } else {
+                callback.invoke(QueryResult.success<List<User>, Throwable?>(mutableListOf<User>().apply {
+                    snapshot?.forEach { documentSnapshot ->
+                        documentSnapshot?.let {
+                            val user = User.parseFirestoreObj(it)
+                            if (user.email != currentUser?.email) add(user)
                         }
-                    })
-                }
-            })
+                    }
+                }))
+            }
         }
     }
 
