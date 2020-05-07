@@ -1,6 +1,5 @@
-package app.messenger.slide.infrastructure
+package app.messenger.slide.infrastructure.repository
 
-import android.util.Log
 import app.messenger.slide.domain.entities.Conversation
 import app.messenger.slide.domain.entities.Message
 import app.messenger.slide.domain.entities.User

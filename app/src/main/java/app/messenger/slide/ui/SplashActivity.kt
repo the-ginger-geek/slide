@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import app.messenger.slide.R
 import app.messenger.slide.application.MainApplication
-import app.messenger.slide.infrastructure.Repository
+import app.messenger.slide.infrastructure.repository.Repository
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar

@@ -1,4 +1,4 @@
-package app.messenger.slide.infrastructure
+package app.messenger.slide.infrastructure.repository
 
 import app.messenger.slide.domain.entities.Conversation
 import app.messenger.slide.domain.entities.Message
@@ -16,7 +16,7 @@ interface Repository {
     fun getRunningConversations(callback: (QueryResult<Set<Conversation>, Throwable?>) -> Unit)
 
     companion object {
-        fun buildRepository(type: Type): Repository {
+        fun get(type: Type): Repository {
             when (type) {
                 Type.FIRESTORE -> return FirestoreRepository()
                 else -> throw NotImplementedError()
