@@ -13,15 +13,12 @@ import javax.inject.Inject
 
 class MainViewModel : BaseViewModel() {
 
-    val hasConversations: MutableLiveData<Boolean> = MutableLiveData()
     val conversations: LiveData<List<Entity>> by lazy {
         MutableLiveData<List<Entity>>().also { liveData ->
             repository?.getRunningConversations { result ->
                 if (result.isSuccessful()) {
                     liveData.value = result.value?.toList() ?: mutableListOf()
                 }
-
-                hasConversations.value = liveData.value?.isNotEmpty()
             }
         }
     }

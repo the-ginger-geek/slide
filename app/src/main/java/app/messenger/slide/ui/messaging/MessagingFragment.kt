@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.messenger.slide.R
 import app.messenger.slide.databinding.MessagingFragmentBinding
 import app.messenger.slide.ui.core.BaseFragment
+import kotlinx.android.synthetic.main.messaging_fragment.*
 import kotlinx.android.synthetic.main.users_fragment.*
+import kotlinx.android.synthetic.main.users_fragment.recycler
 
 
 class MessagingFragment : BaseFragment() {
@@ -34,7 +36,7 @@ class MessagingFragment : BaseFragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        activityCallback?.setTitle(getString(R.string.conversation_screen_title))
+        activityCallback?.setTitle(getString(R.string.messaging_screen_title))
 
         context?.let { context ->
             arguments?.let { bundle ->
@@ -43,7 +45,11 @@ class MessagingFragment : BaseFragment() {
                     viewModel.messages,
                     LinearLayoutManager(context, RecyclerView.VERTICAL, true)
                 )?.setDataChangedCallback {
-                    if (it.isNotEmpty()) recycler.scrollToPosition(0)
+                    if (it.isNotEmpty()) {
+                        recycler.scrollToPosition(0)
+                    } else {
+                        no_data_layout.visibility = View.VISIBLE
+                    }
                 }
                 viewModel.init(context, bundle.getString("user_email") ?: "")
             }

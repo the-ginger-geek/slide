@@ -12,4 +12,23 @@
     <color name="popup_background">#66000000</color>
     <color name="transparent">#00000000</color>
     <color name="clickable_item_color">#EFEFEF</color>
+
+    <string-array name="rainbow_colors">
+        <item>#E57373</item>
+        <item>#F06292</item>
+        <item>#BA68C8</item>
+        <item>#9575CD</item>
+        <item>#7986CB</item>
+        <item>#64B5F6</item>
+        <item>#4FC3F7</item>
+        <item>#4DD0E1</item>
+        <item>#4DB6AC</item>
+        <item>#81C784</item>
+        <item>#AED581</item>
+        <item>#DCE775</item>
+        <item>#FFF176</item>
+        <item>#FFD54F</item>
+        <item>#FFB74D</item>
+        <item>#FF8A65</item>
+    </string-array>
 </resources>

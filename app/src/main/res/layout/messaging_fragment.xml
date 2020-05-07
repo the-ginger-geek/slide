@@ -16,6 +16,42 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
+        <LinearLayout
+            android:id="@+id/no_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:contentDescription="@string/messaging_screen_empty_icon"
+                android:src="@drawable/ic_note"
+                android:tint="?android:attr/textColorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="@string/messaging_screen_no_data_text"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/last_updated" />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
@@ -53,7 +89,7 @@
                     android:background="@color/transparent"
                     android:ems="10"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:hint="@string/conversation_screen_input_hint"
+                    android:hint="@string/messaging_screen_input_hint"
                     android:inputType="textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine"
                     android:maxLines="6"
                     android:paddingTop="4dp"

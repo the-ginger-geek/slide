@@ -11,10 +11,18 @@
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_conversationFragment"
-            app:destination="@id/conversationFragment" />
+            app:destination="@id/conversationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_mainFragment_to_usersFragment"
-            app:destination="@id/usersFragment" />
+            app:destination="@id/usersFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"/>
     </fragment>
     <fragment
         android:id="@+id/conversationFragment"
@@ -26,6 +34,10 @@
         android:label="UsersFragment" >
         <action
             android:id="@+id/action_usersFragment_to_conversationFragment"
-            app:destination="@id/conversationFragment" />
+            app:destination="@id/conversationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 </navigation>

@@ -84,10 +84,10 @@ abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(dataEntity: T)
 }
 
-class ConversationViewHolder(view: View, private val binding: ViewDataBinding) :
+class ConversationViewHolder(val view: View, private val binding: ViewDataBinding) :
     BaseViewHolder<Conversation>(view) {
     override fun bind(dataEntity: Conversation) {
-        binding.setVariable(BR.conversation, ConversationViewModel.parse(dataEntity))
+        binding.setVariable(BR.conversation, ConversationViewModel.parse(view.context, dataEntity))
     }
 }
 

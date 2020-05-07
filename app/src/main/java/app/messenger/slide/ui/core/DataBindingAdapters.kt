@@ -1,5 +1,6 @@
 package app.messenger.slide.ui.core
 
+import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
@@ -72,6 +73,12 @@ object DataBindingAdapters {
     @BindingAdapter("android:image_url")
     fun setImageUrl(view: ImageView, url: String) {
         Glide.with(view).load(url).into(view)
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:image_tint")
+    fun setImageTint(view: ImageView, color: String) {
+        view.setColorFilter(Color.parseColor(color), android.graphics.PorterDuff.Mode.SRC_IN)
     }
 
     private fun setGravity(view: View, percent: Float) {

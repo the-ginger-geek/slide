@@ -4,13 +4,15 @@
     <string name="sign_in">Sign In</string>
 
     <!-- HOME SCREEN STRINGS -->
-    <string name="home_screen_empty_box_icon">Empty Box</string>
+    <string name="home_screen_empty_box_icon">No conversations yet</string>
     <string name="home_screen_no_data_text">No conversations yet</string>
 
     <!-- USER SCREEN STRINGS -->
     <string name="user_screen_title">Start a conversation</string>
 
-    <!-- CONVERSATION SCREEN STRINGS -->
-    <string name="conversation_screen_title">Convo</string>
-    <string name="conversation_screen_input_hint">Your message goes here</string>
+    <!-- MESSAGING SCREEN STRINGS -->
+    <string name="messaging_screen_title">Convo</string>
+    <string name="messaging_screen_input_hint">Your message goes here</string>
+    <string name="messaging_screen_empty_icon">No Messages yet</string>
+    <string name="messaging_screen_no_data_text">No messages yet</string>
 </resources>

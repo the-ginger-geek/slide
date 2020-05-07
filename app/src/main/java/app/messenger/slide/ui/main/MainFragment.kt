@@ -30,7 +30,11 @@ class MainFragment : BaseFragment() {
         activityCallback?.setTitle(getString(R.string.app_name))
 
         context?.let { viewModel.init(it) }
-        setupAdapter(recycler, viewModel.conversations)
+        setupAdapter(recycler, viewModel.conversations)?.setDataChangedCallback {
+            if (!it.isNotEmpty()) {
+                no_data_layout.visibility = View.GONE
+            }
+        }
     }
 
 }

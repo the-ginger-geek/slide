@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import app.messenger.slide.domain.core.QueryResult
 import app.messenger.slide.domain.entities.Entity
@@ -31,6 +32,7 @@ class MessagingViewModel : BaseViewModel() {
             it.value = ""
         }
     }
+
     val enabled: MutableLiveData<Boolean> = MutableLiveData()
     val popupVisible: MutableLiveData<Boolean> = MutableLiveData()
     val uploadingPhoto: MutableLiveData<Boolean> = MutableLiveData()
