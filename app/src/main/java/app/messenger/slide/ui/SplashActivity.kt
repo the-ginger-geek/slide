@@ -40,6 +40,7 @@ class SplashActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (user != null) {
+                    (application as MainApplication).buildApplicationComponent()
                     sign_in_card.visibility = View.GONE
                     repository?.addNewUser(user)
                     goToMainActivity()

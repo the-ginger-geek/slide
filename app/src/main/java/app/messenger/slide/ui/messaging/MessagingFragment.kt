@@ -50,8 +50,12 @@ class MessagingFragment : BaseFragment() {
         }
     }
 
-    fun onActivityResult() {
-        viewModel.postBitmapToCloud()
+    fun postCameraCompleted() {
+        viewModel.sendImageToCloud()
+    }
+
+    fun postBitmapToPicker(image: Bitmap) {
+        viewModel.sendImageToCloud(image)
     }
 
     companion object {

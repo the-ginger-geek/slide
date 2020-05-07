@@ -2,14 +2,20 @@ package app.messenger.slide.ui
 
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import app.messenger.slide.R
+import app.messenger.slide.ui.core.helpers.FileHelper
 import app.messenger.slide.ui.main.MainFragment
 import app.messenger.slide.ui.messaging.MessagingFragment
 import kotlinx.android.synthetic.main.main_activity.*
+import java.io.FileDescriptor
+
 
 class MainActivity : AppCompatActivity(),
     ActivityCallback {
@@ -39,9 +45,23 @@ class MainActivity : AppCompatActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == MessagingFragment.TAKE_PHOTO && resultCode == RESULT_OK) {
-            if (currentFragment is MessagingFragment) {
-                (currentFragment as MessagingFragment).onActivityResult()
+        if (resultCode == RESULT_OK) {
+            if (requestCode == MessagingFragment.TAKE_PHOTO) {
+                if (currentFragment is MessagingFragment) {
+                    (currentFragment as MessagingFragment).postCameraCompleted()
+                }
+            } else if (requestCode == MessagingFragment.PICK_FILE) {
+                if (currentFragment is MessagingFragment) {
+                    val uri: Uri? = data?.data
+                    uri?.let {
+                        val parcelFileDescriptor: ParcelFileDescriptor? =
+                            contentResolver.openFileDescriptor(uri, "r")
+                        val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
+                        val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+                        parcelFileDescriptor?.close()
+                        (currentFragment as MessagingFragment).postBitmapToPicker(image)
+                    }
+                }
             }
         }
     }

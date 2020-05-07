@@ -9,7 +9,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="background">#FFFFFF</color>
-    <color name="popup_background">#33000000</color>
+    <color name="popup_background">#66000000</color>
     <color name="transparent">#00000000</color>
-    <color name="clickable_item_color">#FFFFFF</color>
+    <color name="clickable_item_color">#EFEFEF</color>
 </resources>
