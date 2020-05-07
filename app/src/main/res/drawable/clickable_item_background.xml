@@ -3,7 +3,7 @@
     android:color="?android:attr/colorAccent">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="?android:attr/listSelector" />
+            <solid android:color="@color/clickable_item_color" />
             <corners android:radius="4dp" />
         </shape>
     </item>
