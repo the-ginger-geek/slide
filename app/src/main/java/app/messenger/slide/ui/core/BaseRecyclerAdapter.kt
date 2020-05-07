@@ -21,27 +21,7 @@ class BaseRecyclerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.
     private val data = mutableListOf<Entity>()
     private val inflater = LayoutInflater.from(context)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            Entity.conversationType -> {
-                val binding = viewDataBinding(R.layout.view_conversation_item, parent)
-                ConversationViewHolder(binding.root, binding)
-            }
-
-            Entity.messageType -> {
-                val binding = viewDataBinding(R.layout.view_left_message_item, parent)
-                MessageViewHolder(binding.root, binding)
-            }
-
-            Entity.userType -> {
-                val binding = viewDataBinding(R.layout.view_user_item, parent)
-                UsersViewHolder(binding.root, binding)
-            }
-            else -> {
-                BlankViewHolder(inflater.inflate(R.layout.view_blank, parent, false))
-            }
-        }
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = getViewHolder(viewType, parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
         (holder as BaseViewHolder<Entity>).bind(data[position])
@@ -53,6 +33,31 @@ class BaseRecyclerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.
         data.clear()
         data.addAll(incoming)
         notifyDataSetChanged()
+    }
+
+    private fun getViewHolder(
+        viewType: Int,
+        parent: ViewGroup
+    ): BaseViewHolder<out Entity?> {
+        return when (viewType) {
+            Entity.conversationType -> {
+                val binding = viewDataBinding(R.layout.view_conversation_item, parent)
+                ConversationViewHolder(binding.root, binding)
+            }
+
+            Entity.messageType -> {
+                val binding = viewDataBinding(R.layout.view_message_item, parent)
+                MessageViewHolder(binding.root, binding)
+            }
+
+            Entity.userType -> {
+                val binding = viewDataBinding(R.layout.view_user_item, parent)
+                UsersViewHolder(binding.root, binding)
+            }
+            else -> {
+                BlankViewHolder(inflater.inflate(R.layout.view_blank, parent, false))
+            }
+        }
     }
 
     private fun viewDataBinding(layout: Int, parent: ViewGroup): ViewDataBinding {
@@ -86,7 +91,7 @@ class UsersViewHolder(view: View, private val binding: ViewDataBinding) :
 class MessageViewHolder(view: View, private val binding: ViewDataBinding) :
     BaseViewHolder<Message>(view) {
     override fun bind(dataEntity: Message) {
-        binding.setVariable(BR.message, MessageViewModel.parse(dataEntity))
+        binding.setVariable(BR.model, MessageViewModel.parse(dataEntity))
     }
 }
 

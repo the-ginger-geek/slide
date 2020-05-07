@@ -25,10 +25,12 @@ class ConversationViewModel(
         private var simpleDateFormat: SimpleDateFormat? = null
         fun parse(data: Conversation): ConversationViewModel {
             if (simpleDateFormat == null) {
-                simpleDateFormat = SimpleDateFormat("EEEE HH:mm", Locale.getDefault())
+                simpleDateFormat = SimpleDateFormat("EEE HH:mm", Locale.getDefault())
             }
             val time = simpleDateFormat?.format(Date(data.timestamp)) ?: ""
-            return ConversationViewModel(data.userEmail ?: "", data.body ?: "", time, data.userEmail ?: "")
+            val conversationEmail = data.conversationEmail ?: ""
+            val body = data.body ?: ""
+            return ConversationViewModel(conversationEmail, body, time, conversationEmail)
         }
     }
 }

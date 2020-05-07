@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/coda"
+                android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
                 android:text="@string/home_screen_no_data_text"
                 android:textColor="?android:attr/textColorPrimary"
@@ -64,8 +64,7 @@
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingTop="36dp" />
+                android:clipToPadding="false" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottom_app_bar"

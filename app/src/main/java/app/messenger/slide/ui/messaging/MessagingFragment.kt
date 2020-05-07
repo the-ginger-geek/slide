@@ -1,4 +1,4 @@
-package app.messenger.slide.ui.conversation
+package app.messenger.slide.ui.messaging
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,21 +9,21 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.messenger.slide.R
-import app.messenger.slide.databinding.ConversationFragmentBinding
+import app.messenger.slide.databinding.MessagingFragmentBinding
 import app.messenger.slide.ui.core.BaseFragment
 import kotlinx.android.synthetic.main.users_fragment.*
 
-class ConversationFragment : BaseFragment() {
+class MessagingFragment : BaseFragment() {
 
-    private val viewModel: ConversationViewModel by viewModels()
-    private lateinit var binding: ConversationFragmentBinding
+    private val viewModel: MessagingViewModel by viewModels()
+    private lateinit var binding: MessagingFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.conversation_fragment, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.messaging_fragment, container, false)
         return binding.root
     }
 
@@ -36,12 +36,12 @@ class ConversationFragment : BaseFragment() {
 
         context?.let { context ->
             arguments?.let { bundle ->
-                viewModel.init(context, bundle.getString("user_email") ?: "")
                 setupAdapter(
                     recycler,
                     viewModel.messages,
                     LinearLayoutManager(context, RecyclerView.VERTICAL, true)
                 )
+                viewModel.init(context, bundle.getString("user_email") ?: "")
             }
         }
     }

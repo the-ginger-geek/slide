@@ -21,7 +21,6 @@ class MainViewModel : BaseViewModel() {
     val conversations: LiveData<List<Entity>> by lazy {
         MutableLiveData<List<Entity>>().also { liveData ->
             repository?.getRunningConversations { result ->
-                Log.d("xxxxx", "success? ${result.isSuccessful()}")
                 if (result.isSuccessful()) {
                     liveData.value = result.value?.toList() ?: mutableListOf()
                 }

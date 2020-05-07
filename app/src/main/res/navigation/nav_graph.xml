@@ -18,11 +18,11 @@
     </fragment>
     <fragment
         android:id="@+id/conversationFragment"
-        android:name="app.messenger.slide.ui.conversation.ConversationFragment"
+        android:name="app.messenger.slide.ui.messaging.MessagingFragment"
         android:label="ConversationFragment" />
     <fragment
         android:id="@+id/usersFragment"
-        android:name="app.messenger.slide.ui.user.UsersFragment"
+        android:name="app.messenger.slide.ui.users.UsersFragment"
         android:label="UsersFragment" >
         <action
             android:id="@+id/action_usersFragment_to_conversationFragment"

@@ -6,7 +6,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="app.messenger.slide.ui.user.UsersViewModel" />
+            type="app.messenger.slide.ui.users.UsersViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

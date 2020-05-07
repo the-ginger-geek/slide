@@ -1,4 +1,4 @@
-package app.messenger.slide.ui.user
+package app.messenger.slide.ui.users
 
 import android.os.Bundle
 import android.view.LayoutInflater

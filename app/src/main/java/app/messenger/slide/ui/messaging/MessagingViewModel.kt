@@ -1,4 +1,4 @@
-package app.messenger.slide.ui.conversation
+package app.messenger.slide.ui.messaging
 
 import android.content.Context
 import android.view.View
@@ -9,7 +9,7 @@ import app.messenger.slide.infrastructure.Repository
 import app.messenger.slide.ui.core.BaseViewModel
 import javax.inject.Inject
 
-class ConversationViewModel : BaseViewModel() {
+class MessagingViewModel : BaseViewModel() {
 
     var repository: Repository? = null
         @Inject set
@@ -27,13 +27,17 @@ class ConversationViewModel : BaseViewModel() {
         }
     }
 
-    fun onClick(view: View) {
+    fun onClickSend(view: View) {
         enabled.value = false
         repository?.addNewMessage(input.value?:"", userEmail) { result ->
             if (result.isSuccessful()) populateMessages()
             enabled.value = true
             input.value = ""
         }
+    }
+
+    fun onClickAttach(view: View) {
+
     }
 
     fun init(context: Context, userEmail: String) {
@@ -44,7 +48,7 @@ class ConversationViewModel : BaseViewModel() {
 
     private fun populateMessages() {
         repository?.getMessagesForUser(userEmail) { result ->
-            if (result.isSuccessful()) messages.value = result.value
+            if (result.isSuccessful()) messages.value = result.value?.toList() ?: listOf()
         }
     }
 }

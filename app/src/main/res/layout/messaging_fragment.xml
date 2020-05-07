@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="app.messenger.slide.ui.conversation.ConversationViewModel" />
+            type="app.messenger.slide.ui.messaging.MessagingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
+            android:paddingBottom="80dp"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/input_card"
@@ -47,23 +48,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:background="@color/transparent"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:hint="@string/conversation_screen_input_hint"
+                    android:inputType="textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine"
+                    android:maxLines="6"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    android:ems="10"
-                    android:inputType="textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine"
-                    android:hint="@string/conversation_screen_input_hint"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textColorHint="?android:attr/textColorPrimaryDisableOnly"
-                    android:background="@color/transparent"
                     android:text="@={viewModel.input}"
-                    android:maxLines="6"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textColorHint="?android:attr/textColorHint"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView3"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Send a message"/>
+                    tools:text="Send a message" />
 
                 <ImageView
                     android:id="@+id/imageView3"
@@ -71,13 +72,26 @@
                     android:layout_height="45dp"
                     android:layout_marginEnd="8dp"
                     android:padding="10dp"
-                    android:onClick="@{viewModel::onClick}"
+                    android:onClick="@{viewModel::onClickSend}"
                     android:background="@drawable/clickable_item_background"
                     android:enabled="@{viewModel.enabled}"
+                    android:tint="?android:attr/textColorPrimary"
                     app:layout_constraintBottom_toBottomOf="@+id/editText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/editText"
                     app:srcCompat="@drawable/ic_interface" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:onClick="@{viewModel::onClickAttach}"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView3"
+                    app:layout_constraintTop_toTopOf="@+id/imageView3"
+                    app:srcCompat="@drawable/ic_attach" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

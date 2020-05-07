@@ -1,4 +1,4 @@
-package app.messenger.slide.ui.user
+package app.messenger.slide.ui.users
 
 import android.content.Context
 import androidx.lifecycle.LiveData
