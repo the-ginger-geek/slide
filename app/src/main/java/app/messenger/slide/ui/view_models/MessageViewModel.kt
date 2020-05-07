@@ -14,7 +14,8 @@ class MessageViewModel(
     val toUser: String,
     @Bindable val time: String,
     @Bindable val horizontalBias: Float,
-    @Bindable val boxColor: Int
+    @Bindable val boxColor: Int,
+    @Bindable val imageUrl: String
 ) :
     Viewable() {
     companion object {
@@ -31,7 +32,8 @@ class MessageViewModel(
                 data.toUserEmail,
                 simpleDateFormat?.format(Date(data.timestamp)) ?: "",
                 if (currentUser) 1f else 0f,
-                if (currentUser) R.color.otherUserMessageBox else R.color.currentUserMessageBox
+                if (currentUser) R.color.otherUserMessageBox else R.color.currentUserMessageBox,
+                data.imageUrl ?: ""
             )
         }
     }

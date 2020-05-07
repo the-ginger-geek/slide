@@ -1,15 +1,20 @@
 package app.messenger.slide.ui
 
+import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import app.messenger.slide.R
 import app.messenger.slide.ui.main.MainFragment
+import app.messenger.slide.ui.messaging.MessagingFragment
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity(),
     ActivityCallback {
+
+    private var currentFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +27,7 @@ class MainActivity : AppCompatActivity(),
         val showNavIcon = fragment !is MainFragment
         supportActionBar?.setDisplayHomeAsUpEnabled(showNavIcon)
         supportActionBar?.setDisplayShowHomeEnabled(showNavIcon)
+        currentFragment = fragment
     }
 
     override fun setTitle(text: String) {
@@ -30,4 +36,13 @@ class MainActivity : AppCompatActivity(),
 
     override fun onSupportNavigateUp() =
         findNavController(R.id.nav_host_fragment).navigateUp()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == MessagingFragment.TAKE_PHOTO && resultCode == RESULT_OK) {
+            if (currentFragment is MessagingFragment) {
+                (currentFragment as MessagingFragment).onActivityResult()
+            }
+        }
+    }
 }

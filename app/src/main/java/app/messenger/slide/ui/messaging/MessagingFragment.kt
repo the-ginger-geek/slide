@@ -1,5 +1,6 @@
 package app.messenger.slide.ui.messaging
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import app.messenger.slide.R
 import app.messenger.slide.databinding.MessagingFragmentBinding
 import app.messenger.slide.ui.core.BaseFragment
 import kotlinx.android.synthetic.main.users_fragment.*
+
 
 class MessagingFragment : BaseFragment() {
 
@@ -40,9 +42,20 @@ class MessagingFragment : BaseFragment() {
                     recycler,
                     viewModel.messages,
                     LinearLayoutManager(context, RecyclerView.VERTICAL, true)
-                )
+                )?.setDataChangedCallback {
+                    if (it.isNotEmpty()) recycler.scrollToPosition(0)
+                }
                 viewModel.init(context, bundle.getString("user_email") ?: "")
             }
         }
+    }
+
+    fun onActivityResult() {
+        viewModel.postBitmapToCloud()
+    }
+
+    companion object {
+        const val PICK_FILE = 120
+        const val TAKE_PHOTO = 121
     }
 }

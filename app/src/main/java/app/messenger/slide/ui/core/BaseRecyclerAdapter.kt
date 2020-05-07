@@ -20,6 +20,7 @@ import app.messenger.slide.ui.view_models.UserViewModel
 class BaseRecyclerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val data = mutableListOf<Entity>()
     private val inflater = LayoutInflater.from(context)
+    private var dataChangedCallback: (BaseRecyclerAdapter) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = getViewHolder(viewType, parent)
 
@@ -33,6 +34,15 @@ class BaseRecyclerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.
         data.clear()
         data.addAll(incoming)
         notifyDataSetChanged()
+        dataChangedCallback.invoke(this)
+    }
+
+    fun isNotEmpty(): Boolean {
+        return data.isNotEmpty()
+    }
+
+    fun setDataChangedCallback(callback: (BaseRecyclerAdapter) -> Unit) {
+        dataChangedCallback = callback
     }
 
     private fun getViewHolder(

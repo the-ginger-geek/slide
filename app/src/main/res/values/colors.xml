@@ -3,10 +3,13 @@
     <color name="colorPrimary">#438fff</color>
     <color name="colorPrimaryDark">#25508f</color>
     <color name="colorAccent">#1af1d6</color>
+
     <color name="otherUserMessageBox">#F4F4F4</color>
     <color name="currentUserMessageBox">#98AED5</color>
+
     <color name="white">#FFFFFF</color>
     <color name="background">#FFFFFF</color>
+    <color name="popup_background">#33000000</color>
     <color name="transparent">#00000000</color>
     <color name="clickable_item_color">#FFFFFF</color>
 </resources>

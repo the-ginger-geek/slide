@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import app.messenger.slide.R
 import app.messenger.slide.application.MainApplication
+import app.messenger.slide.infrastructure.cloud_storage.CloudStorage
 import app.messenger.slide.infrastructure.repository.Repository
 import javax.inject.Inject
 
 abstract class BaseViewModel : ViewModel() {
     var repository: Repository? = null
+        @Inject set
+    var cloudStorage: CloudStorage? = null
         @Inject set
 
     fun navigate(context: Context, id: Int) {

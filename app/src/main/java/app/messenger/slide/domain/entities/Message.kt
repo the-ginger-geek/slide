@@ -8,6 +8,7 @@ data class Message(
     val toUserEmail: String,
     val message: String,
     val searchField: String,
+    val imageUrl: String? = null,
     val timestamp: Long = System.currentTimeMillis()
 ) : Entity {
     override val type: Int
@@ -46,6 +47,7 @@ data class Message(
                 toUserEmail,
                 snapshot["message"] as String,
                 searchField,
+                snapshot["imageUrl"] as String?,
                 snapshot["timestamp"] as Long
             )
         }

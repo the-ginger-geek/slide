@@ -83,41 +83,22 @@ class FirestoreRepository : Repository, CoroutineScope {
         toUserEmail: String,
         callback: (QueryResult<Boolean, Throwable?>) -> Unit
     ) {
-        launch {
-            callback(withContext(Dispatchers.IO) {
-                val timestamp = System.currentTimeMillis()
-                val deferredList = listOf(
-                    firestore.collection("messages")
-                        .add(
-                            Message(
-                                currentUser?.email ?: "",
-                                toUserEmail,
-                                message,
-                                getHashCode(listOf(currentUser?.email ?: "", toUserEmail)),
-                                timestamp
-                            )
-                        )
-                        .asDeferred(),
+        sendMessage(message, "", toUserEmail, callback)
+    }
 
-                    firestore.collection("conversations").document("${currentUser?.email}:$toUserEmail")
-                        .set(Conversation(currentUser?.email, toUserEmail, message, timestamp))
-                        .asDeferred(),
-
-                    firestore.collection("conversations").document("$toUserEmail:${currentUser?.email}")
-                        .set(Conversation(toUserEmail, currentUser?.email, message, timestamp))
-                        .asDeferred()
-                )
-                deferredList.awaitAll()
-                deferredList.forEach {
-                    val error = it.getCompletionExceptionOrNull()
-                    if (error != null) {
-                        return@withContext QueryResult.failure<Boolean, Throwable?>(error)
-                    }
-                }
-
-                return@withContext QueryResult.success<Boolean, Throwable?>(true)
-            })
-        }
+    /**
+     * New image message between the current signed in user and the intended user.
+     *
+     * @param url
+     * @param toUserEmail
+     * @param callback will be invoked when completed
+     */
+    override fun addNewImageMessage(
+        url: String,
+        toUserEmail: String,
+        callback: (QueryResult<Boolean, Throwable?>) -> Unit
+    ) {
+        sendMessage("", url, toUserEmail, callback)
     }
 
     /**
@@ -139,16 +120,16 @@ class FirestoreRepository : Repository, CoroutineScope {
             .orderBy("timestamp", Query.Direction.DESCENDING)
 
         query.addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    callback.invoke(QueryResult.failure(e))
-                } else {
-                    callback.invoke(QueryResult.success<Set<Message>, Throwable?>(mutableSetOf<Message>().apply {
-                        snapshot?.forEach { documentSnapshot ->
-                            documentSnapshot?.let { add(Message.parseFirestoreObj(it)) }
-                        }
-                    }))
-                }
+            if (e != null) {
+                callback.invoke(QueryResult.failure(e))
+            } else {
+                callback.invoke(QueryResult.success<Set<Message>, Throwable?>(mutableSetOf<Message>().apply {
+                    snapshot?.forEach { documentSnapshot ->
+                        documentSnapshot?.let { add(Message.parseFirestoreObj(it)) }
+                    }
+                }))
             }
+        }
     }
 
     /**
@@ -165,13 +146,76 @@ class FirestoreRepository : Repository, CoroutineScope {
             if (e != null) {
                 callback.invoke(QueryResult.failure(e))
             } else {
-                callback.invoke(QueryResult.success<Set<Conversation>, Throwable?>(
-                    mutableSetOf<Conversation>().apply {
-                        snapshot?.forEach { documentSnapshot ->
-                            documentSnapshot?.let { add(Conversation.parseFirestoreObject(it)) }
-                        }
-                    }))
+                callback.invoke(
+                    QueryResult.success<Set<Conversation>, Throwable?>(
+                        mutableSetOf<Conversation>().apply {
+                            snapshot?.forEach { documentSnapshot ->
+                                documentSnapshot?.let { add(Conversation.parseFirestoreObject(it)) }
+                            }
+                        })
+                )
             }
+        }
+    }
+
+    private fun sendMessage(
+        message: String,
+        imageUrl: String,
+        toUserEmail: String,
+        callback: (QueryResult<Boolean, Throwable?>) -> Unit
+    ) {
+        launch {
+            val conversationOverviewMessage = if (imageUrl.isNotEmpty()) "image" else message
+            callback(withContext(Dispatchers.IO) {
+                val timestamp = System.currentTimeMillis()
+                val deferredList = listOf(
+                    firestore.collection("messages")
+                        .add(
+                            Message(
+                                currentUser?.email ?: "",
+                                toUserEmail,
+                                message,
+                                getHashCode(listOf(currentUser?.email ?: "", toUserEmail)),
+                                imageUrl,
+                                timestamp
+                            )
+                        )
+                        .asDeferred(),
+
+                    firestore.collection("conversations")
+                        .document("${currentUser?.email}:$toUserEmail")
+                        .set(
+                            Conversation(
+                                currentUser?.email,
+                                toUserEmail,
+                                conversationOverviewMessage,
+                                timestamp
+                            )
+                        )
+                        .asDeferred(),
+
+                    firestore.collection("conversations")
+                        .document("$toUserEmail:${currentUser?.email}")
+                        .set(
+                            Conversation(
+                                toUserEmail,
+                                currentUser?.email,
+                                conversationOverviewMessage,
+                                timestamp
+                            )
+                        )
+                        .asDeferred()
+                )
+                deferredList.awaitAll()
+                deferredList.forEach {
+                    val error = it.getCompletionExceptionOrNull()
+                    if (error != null) {
+                        return@withContext QueryResult.failure<Boolean, Throwable?>(error)
+                    }
+                }
+
+                return@withContext QueryResult.success<Boolean, Throwable?>(true)
+            })
         }
     }
 

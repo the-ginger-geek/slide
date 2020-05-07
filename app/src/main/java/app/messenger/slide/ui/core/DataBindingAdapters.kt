@@ -2,6 +2,9 @@ package app.messenger.slide.ui.core
 
 import android.view.Gravity
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -9,6 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 
 import androidx.databinding.BindingAdapter
+import app.messenger.slide.R
+import com.bumptech.glide.Glide
 
 object DataBindingAdapters {
     @JvmStatic
@@ -39,6 +44,34 @@ object DataBindingAdapters {
     @BindingAdapter("app:set_box_color")
     fun setBoxColor(view: CardView, color: Int) {
         view.setCardBackgroundColor(ContextCompat.getColor(view.context, color))
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:animate_visibility")
+    fun setVisibility(view: View, visibility: Int) {
+        if (view.visibility != visibility) {
+            val animation = AnimationUtils.loadAnimation(
+                view.context,
+                if (visibility == View.VISIBLE) R.anim.fade_in else R.anim.fade_out
+            ).also {
+                it.setAnimationListener(object: Animation.AnimationListener {
+                    override fun onAnimationRepeat(animation: Animation?) {}
+                    override fun onAnimationStart(animation: Animation?) {}
+                    override fun onAnimationEnd(animation: Animation?) {
+                        view.visibility = visibility
+                    }
+                })
+            }
+
+            if (visibility == View.VISIBLE) view.visibility = visibility
+            view.startAnimation(animation)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:image_url")
+    fun setImageUrl(view: ImageView, url: String) {
+        Glide.with(view).load(url).into(view)
     }
 
     private fun setGravity(view: View, percent: Float) {
