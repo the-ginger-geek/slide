@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.messenger.slide.R
 import app.messenger.slide.databinding.MessagingFragmentBinding
 import app.messenger.slide.ui.core.BaseFragment
@@ -42,17 +43,31 @@ class MessagingFragment : BaseFragment() {
         context?.let { context ->
             arguments?.let { bundle ->
                 setupAdapter(
-                    recycler,
-                    viewModel.messages,
-                    LinearLayoutManager(context, RecyclerView.VERTICAL, true)
-                )?.setDataChangedCallback {
+                    recycler = recycler,
+                    dataSet = viewModel.messages,
+                    layoutManager = LinearLayoutManager(context),
+                    reversed = true
+                ).also { adapter ->
+                    adapter?.let {
+                        recycler.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+                            if (bottom < oldBottom) {
+                                recycler.post {
+                                    val lastPosition = it.size() - 1
+                                    recycler?.scrollToPosition(lastPosition)
+                                }
+                            }
+                        }
+                    }
+                }?.setDataChangedCallback {
                     if (it.isNotEmpty()) {
-                        recycler.scrollToPosition(0)
                         no_data_layout.visibility = View.GONE
+                        val lastPosition = it.size() - 1
+                        recycler?.scrollToPosition(lastPosition)
                     } else {
                         no_data_layout.visibility = View.VISIBLE
                     }
                 }
+
                 viewModel.init(context, bundle.getString("user_email") ?: "")
             }
         }

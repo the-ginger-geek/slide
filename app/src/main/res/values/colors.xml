@@ -4,14 +4,14 @@
     <color name="colorPrimaryDark">#25508f</color>
     <color name="colorAccent">#1af1d6</color>
 
-    <color name="otherUserMessageBox">#F4F4F4</color>
+    <color name="otherUserMessageBox">#F9F9F9</color>
     <color name="currentUserMessageBox">#98AED5</color>
 
     <color name="white">#FFFFFF</color>
     <color name="background">#FFFFFF</color>
     <color name="popup_background">#66000000</color>
     <color name="transparent">#00000000</color>
-    <color name="clickable_item_color">#EFEFEF</color>
+    <color name="clickable_item_color">#F9F9F9</color>
 
     <string-array name="rainbow_colors">
         <item>#E57373</item>

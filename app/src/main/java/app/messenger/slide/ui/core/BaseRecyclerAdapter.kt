@@ -30,15 +30,19 @@ class BaseRecyclerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.
     override fun getItemViewType(position: Int): Int = data[position].type
     override fun getItemCount(): Int = data.size
 
-    fun refreshData(incoming: List<Entity>) {
+    fun refreshData(incoming: List<Entity>, reversed: Boolean) {
         data.clear()
-        data.addAll(incoming)
+        data.addAll(if (reversed) incoming.reversed() else incoming)
         notifyDataSetChanged()
         dataChangedCallback.invoke(this)
     }
 
     fun isNotEmpty(): Boolean {
         return data.isNotEmpty()
+    }
+
+    fun size(): Int {
+        return data.size
     }
 
     fun setDataChangedCallback(callback: (BaseRecyclerAdapter) -> Unit) {

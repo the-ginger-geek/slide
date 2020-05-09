@@ -27,14 +27,15 @@ abstract class BaseFragment : Fragment() {
     fun setupAdapter(
         recycler: RecyclerView,
         dataSet: LiveData<List<Entity>>,
-        layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
+        layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context),
+        reversed: Boolean = false
     ): BaseRecyclerAdapter? {
         return context?.let { context ->
             val adapter = BaseRecyclerAdapter(context)
             recycler.adapter = adapter
             recycler.layoutManager = layoutManager
             dataSet.observe(viewLifecycleOwner, Observer {
-                adapter.refreshData(it ?: listOf())
+                adapter.refreshData(it ?: listOf(), reversed)
             })
             adapter
         } ?: run { null }
