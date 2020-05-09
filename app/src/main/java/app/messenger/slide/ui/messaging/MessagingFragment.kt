@@ -38,7 +38,6 @@ class MessagingFragment : BaseFragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        activityCallback?.setTitle(getString(R.string.messaging_screen_title))
 
         context?.let { context ->
             arguments?.let { bundle ->
@@ -68,8 +67,16 @@ class MessagingFragment : BaseFragment() {
                     }
                 }
 
-                viewModel.init(context, bundle.getString("user_email") ?: "")
+                val title = bundle.getString("user_name") ?: getString(R.string.messaging_screen_title)
+                activityCallback?.setTitle(title)
+                viewModel.init(
+                    context,
+                    bundle.getString("user_email") ?: "",
+                    bundle.getString("user_name") ?: ""
+                )
             }
+        } ?: run {
+            activityCallback?.setTitle(getString(R.string.messaging_screen_title))
         }
     }
 

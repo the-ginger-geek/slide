@@ -11,6 +11,7 @@ class UserViewModel(@Bindable val name: String, private val email: String) : Vie
     fun onClick(view: View) {
         val bundle = Bundle()
         bundle.putString("user_email", email)
+        bundle.putString("user_name", name)
         navigate(view.context, R.id.action_usersFragment_to_conversationFragment, bundle)
     }
 

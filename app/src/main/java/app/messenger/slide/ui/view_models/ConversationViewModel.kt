@@ -22,6 +22,7 @@ class ConversationViewModel(
     fun onClick(view: View) {
         val bundle = Bundle()
         bundle.putString("user_email", email)
+        bundle.putString("user_name", heading)
         navigate(view.context, R.id.action_mainFragment_to_conversationFragment, bundle)
     }
 
@@ -32,9 +33,16 @@ class ConversationViewModel(
             init(context)
             val time = simpleDateFormat?.format(Date(data.timestamp)) ?: ""
             val conversationEmail = data.conversationEmail ?: ""
+            val conversationName = data.conversationName ?: ""
             val body = data.body ?: ""
             val color = colorInts[Random().nextInt(colorInts.size - 1)]
-            return ConversationViewModel(conversationEmail, body, time, color, conversationEmail)
+            return ConversationViewModel(
+                conversationName,
+                body,
+                time,
+                color,
+                conversationEmail
+            )
         }
 
         private fun init(context: Context) {

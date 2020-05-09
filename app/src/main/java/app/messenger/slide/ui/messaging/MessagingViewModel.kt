@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import app.messenger.slide.domain.core.QueryResult
 import app.messenger.slide.domain.entities.Entity
@@ -20,10 +19,10 @@ import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.io.IOException
 
-
 class MessagingViewModel : BaseViewModel() {
 
     private var userEmail: String = ""
+    private var userName: String = ""
     var currentPhotoPath: String = ""
 
     val messages: MutableLiveData<List<Entity>> = MutableLiveData<List<Entity>>()
@@ -37,8 +36,9 @@ class MessagingViewModel : BaseViewModel() {
     val popupVisible: MutableLiveData<Boolean> = MutableLiveData()
     val uploadingPhoto: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun init(context: Context, userEmail: String) {
+    fun init(context: Context, userEmail: String, userName: String) {
         this.userEmail = userEmail
+        this.userName = userName
         inject(context)
         populateMessages()
     }
@@ -55,8 +55,8 @@ class MessagingViewModel : BaseViewModel() {
     fun onClickSend(view: View) {
         enabled.value = false
         val text = input.value ?: ""
-        repository?.addNewMessage(text, userEmail) { result ->
-            if (!result.isSuccessful())  {
+        repository?.addNewMessage(text, userEmail, userName) { result ->
+            if (!result.isSuccessful()) {
                 Snackbar.make(view, "Failed to send please try again", Snackbar.LENGTH_LONG).show()
             }
         }
@@ -100,7 +100,11 @@ class MessagingViewModel : BaseViewModel() {
         uploadingPhoto.value = false
         popupVisible.value = false
         if (uploadResult.isSuccessful()) {
-            repository?.addNewImageMessage(uploadResult.value?.toString() ?: "", userEmail) {
+            repository?.addNewImageMessage(
+                uploadResult.value?.toString() ?: "",
+                userEmail,
+                userName
+            ) {
                 enabled.value = true
             }
         }

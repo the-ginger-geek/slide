@@ -39,7 +39,7 @@ class FirestoreRepository : Repository, CoroutineScope {
      */
     override fun addNewUser(firebaseUser: FirebaseUser) {
         val user = User(firebaseUser.email ?: "", firebaseUser.displayName ?: "")
-        firestore.collection("users").document(user.email).set(user)
+        firestore.collection("users").document(user.email ?: "").set(user)
     }
 
     /**
@@ -75,9 +75,10 @@ class FirestoreRepository : Repository, CoroutineScope {
     override fun addNewMessage(
         message: String,
         toUserEmail: String,
+        toUserName: String,
         callback: (QueryResult<Boolean, Throwable?>) -> Unit
     ) {
-        sendMessage(message, "", toUserEmail, callback)
+        sendMessage(message, "", toUserEmail, toUserName, callback)
     }
 
     /**
@@ -90,9 +91,10 @@ class FirestoreRepository : Repository, CoroutineScope {
     override fun addNewImageMessage(
         url: String,
         toUserEmail: String,
+        toUserName: String,
         callback: (QueryResult<Boolean, Throwable?>) -> Unit
     ) {
-        sendMessage("", url, toUserEmail, callback)
+        sendMessage("", url, toUserEmail, toUserName, callback)
     }
 
     /**
@@ -156,6 +158,7 @@ class FirestoreRepository : Repository, CoroutineScope {
         message: String,
         imageUrl: String,
         toUserEmail: String,
+        toUserName: String,
         callback: (QueryResult<Boolean, Throwable?>) -> Unit
     ) {
         launch {
@@ -182,6 +185,7 @@ class FirestoreRepository : Repository, CoroutineScope {
                             Conversation(
                                 currentUser?.email,
                                 toUserEmail,
+                                toUserName,
                                 conversationOverviewMessage,
                                 timestamp
                             )
@@ -194,6 +198,7 @@ class FirestoreRepository : Repository, CoroutineScope {
                             Conversation(
                                 toUserEmail,
                                 currentUser?.email,
+                                toUserName,
                                 conversationOverviewMessage,
                                 timestamp
                             )
